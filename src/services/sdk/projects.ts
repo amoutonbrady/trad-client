@@ -1,51 +1,54 @@
 import { GraphQLClient } from "graphql-request";
-import { getUser, getUsers, createUser, updateUser } from "../../graphql";
+import {
+  getProject,
+  getProjects,
+  createProject,
+  updateProject,
+} from "../../graphql";
 
-export const createUsersEndpoint = (client: GraphQLClient) => ({
+export const createProjectsEndpoint = (client: GraphQLClient) => ({
   async getAll() {
     try {
-      const { users } = await client.request(getUsers);
-      return users;
+      const { projects } = await client.request(getProjects);
+      return projects;
     } catch ({ response }) {
       throw new Error(response.errors[0].message);
     }
   },
 
-  async getOne(id: number) {
+  async getOne(slug: string) {
     try {
-      const { user } = await client.request(getUser, { id });
-      return user;
+      const { project } = await client.request(getProject, { slug });
+      return project;
     } catch ({ response }) {
       throw new Error(response.errors[0].message);
     }
   },
 
-  async create(data: UserData) {
+  async create(data: ProjectData) {
     try {
-      const { createOneUser } = await client.request(createUser, {
-        data,
+      const { createOneProject } = await client.request(createProject, data);
+      return createOneProject;
+    } catch ({ response }) {
+      throw new Error(response.errors[0].message);
+    }
+  },
+
+  async update(data: ProjectData, slug: string) {
+    try {
+      const { updateOneProject } = await client.request(updateProject, {
+        ...data,
+        slug,
       });
-      return createOneUser;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
-    }
-  },
-
-  async update(data: UserData, id: number) {
-    try {
-      const { updateOneUser } = await client.request(updateUser, {
-        data,
-        id,
-      });
-      return updateOneUser;
+      return updateOneProject;
     } catch ({ response }) {
       throw new Error(response.errors[0].message);
     }
   },
 });
 
-interface UserData {
-  email: string;
+interface ProjectData {
+  languages: { code: string }[];
   name: string;
-  password?: string;
+  screenshot?: string;
 }

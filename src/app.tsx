@@ -5,7 +5,6 @@ import { Button } from './components'
 import { useAuth } from './services/auth'
 
 import Login from './views/login'
-import { arrowRight } from '@amoutonbrady/solid-heroicons/outline'
 
 const Home = lazy(() => import('./views/home'))
 

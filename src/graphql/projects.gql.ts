@@ -7,6 +7,9 @@ export const getProjects = gql`
       name
       slug
       screenshot
+      languages {
+        code
+      }
       views {
         id
       }
@@ -19,22 +22,43 @@ export const getProject = gql`
     project(where: { slug: $slug }) {
       name
       slug
+      languages {
+        code
+        name
+      }
       screenshot
     }
   }
 `;
 
 export const createProject = gql`
-  mutation createProject($data: ProjectCreateInput!) {
-    createOneProject(data: $data) {
+  mutation createProject(
+    $name: String!
+    $userId: Int!
+    $languages: [LanguageWhereUniqueInput!]
+  ) {
+    createOneProject(
+      data: {
+        name: $name
+        users: { connect: { id: $userId } }
+        languages: { connect: $languages }
+      }
+    ) {
       id
     }
   }
 `;
 
 export const updateProject = gql`
-  mutation updateProject($data: ProjectUpdateInput!, $slug: String!) {
-    updateOneProject(data: $data, where: { slug: $slug }) {
+  mutation updateProject(
+    $slug: String!
+    $name: String!
+    $languages: [LanguageWhereUniqueInput!]
+  ) {
+    updateOneProject(
+      data: { name: $name, languages: { connect: $languages } }
+      where: { slug: $slug }
+    ) {
       id
     }
   }
