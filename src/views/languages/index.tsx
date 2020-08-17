@@ -1,14 +1,14 @@
-import { Component, createResource, For, Suspense } from 'solid-js'
-import { Link } from '@rturnq/solid-router'
-import { Button, Page } from '../../components'
-import { useSDK } from '../../services/sdk'
-import { Icon } from '@amoutonbrady/solid-heroicons'
-import { arrowRight } from '@amoutonbrady/solid-heroicons/outline'
+import { Component, createResource, For, Suspense } from "solid-js";
+import { Link } from "@rturnq/solid-router";
+import { Button, Page } from "../../components";
+import { useSDK } from "../../services/sdk";
+import { Icon } from "@amoutonbrady/solid-heroicons";
+import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
 
-export const LanguageIndex: Component = () => {
-  const sdk = useSDK()
-  const [languages, loadLanguages] = createResource([])
-  loadLanguages(sdk.languages.getAll())
+const LanguageIndex: Component = () => {
+  const sdk = useSDK();
+  const [languages, loadLanguages] = createResource([]);
+  loadLanguages(sdk.languages.getAll());
 
   return (
     <Page name="List of languages available">
@@ -26,7 +26,7 @@ export const LanguageIndex: Component = () => {
               {(language, i) => (
                 <li
                   class="border-dashed border-gray-200 py-1"
-                  classList={{ 'border-t-2': i() > 0 }}
+                  classList={{ "border-t-2": i() > 0 }}
                 >
                   <Link
                     href={`/languages/${language.code}`}
@@ -43,7 +43,7 @@ export const LanguageIndex: Component = () => {
                       <Icon
                         path={arrowRight}
                         outline
-                        classList={{ 'w-6': true }}
+                        classList={{ "w-6": true }}
                       />
                     </button>
                   </Link>
@@ -54,5 +54,7 @@ export const LanguageIndex: Component = () => {
         </Suspense>
       </section>
     </Page>
-  )
-}
+  );
+};
+
+export default LanguageIndex;

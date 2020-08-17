@@ -1,19 +1,27 @@
-import { Component, Switch, Match, Show } from 'solid-js'
+import { Component, Switch, Match, Show, lazy, Suspense } from 'solid-js'
 import { MatchRoute, NavLink, Redirect } from '@rturnq/solid-router'
 
-import Home from './views/home'
-import Login from './views/login'
-import { useAuth } from './services/auth'
 import { Button } from './components'
-import { LanguageIndex } from './views/languages'
-import { LanguageNew } from './views/languages/new'
-import { LanguageDetails } from './views/languages/details'
+import { useAuth } from './services/auth'
+
+import Login from './views/login'
+import { arrowRight } from '@amoutonbrady/solid-heroicons/outline'
+
+const Home = lazy(() => import('./views/home'))
+
+const LanguageIndex = lazy(() => import('./views/languages'))
+const LanguageDetails = lazy(() => import('./views/languages/details'))
+const LanguageNew = lazy(() => import('./views/languages/new'))
+
+const UsersIndex = lazy(() => import('./views/users'))
+const UserDetails = lazy(() => import('./views/users/details'))
+const UserNew = lazy(() => import('./views/users/new'))
 
 const App: Component = () => {
-  const [_, { isLoggedIn, logout }] = useAuth()
+  const [auth, { isLoggedIn, logout }] = useAuth()
 
   return (
-    <>
+    <Suspense fallback={<p>Loading...</p>}>
       <Show when={isLoggedIn()}>
         <aside class="h-full w-64 bg-gray-800 text-gray-050 flex flex-col">
           <p class="text-lg font-semibold text-center py-3 bg-gray-900">
@@ -62,7 +70,17 @@ const App: Component = () => {
             </ul>
           </nav>
 
-          <Button onClick={logout} status="danger" class="mt-auto">
+          <Show when={auth.user}>
+            <p class="py-2 px-5 text-sm mt-auto font-bold flex flex-col items-center justify-center">
+              <span>Connected as:</span>
+              <span>{auth.user.name || auth.user.email}</span>
+            </p>
+          </Show>
+          <Button
+            onClick={logout}
+            status="danger"
+            classList={{ 'mt-auto': auth.user }}
+          >
             Logout
           </Button>
         </aside>
@@ -82,8 +100,17 @@ const App: Component = () => {
               <MatchRoute path="/languages/:code">
                 <LanguageDetails />
               </MatchRoute>
-              <MatchRoute path="/languages">
+              <MatchRoute path="/languages" end>
                 <LanguageIndex />
+              </MatchRoute>
+              <MatchRoute path="/users/new">
+                <UserNew />
+              </MatchRoute>
+              <MatchRoute path="/users/:id">
+                <UserDetails />
+              </MatchRoute>
+              <MatchRoute path="/users" end>
+                <UsersIndex />
               </MatchRoute>
               <MatchRoute path="/login">
                 <Redirect to="/" />
@@ -101,7 +128,7 @@ const App: Component = () => {
           </Match>
         </Switch>
       </main>
-    </>
+    </Suspense>
   )
 }
 

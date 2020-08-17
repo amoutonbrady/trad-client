@@ -1,11 +1,15 @@
 import { GraphQLClient } from "graphql-request";
 import { createEffect, createState, useContext } from "solid-js";
-import { ServiceContext } from ".";
+import { ServiceContext } from "./index";
 import { loginMutation } from "../graphql";
 import { useLocalStorage } from "../utils/useLocalStorage";
 
 export const createAuthService = (client: GraphQLClient) => {
-  const [get, set] = useLocalStorage("auth", { token: "", error: "" });
+  const [get, set] = useLocalStorage("auth", {
+    token: "",
+    error: "",
+    user: null,
+  });
   const [state, setState] = createState(get());
   createEffect(() => {
     set(state);
@@ -21,9 +25,13 @@ export const createAuthService = (client: GraphQLClient) => {
       async login(data: { email: string; password: string }) {
         try {
           const { login } = await client.request(loginMutation, data);
-          setState({ token: login.token, error: "" });
+          setState({ token: login.token, error: "", user: login.user });
         } catch ({ response }) {
-          setState({ token: "", error: response.errors[0].message });
+          setState({
+            token: "",
+            error: response.errors[0].message,
+            user: null,
+          });
         }
       },
       logout() {
