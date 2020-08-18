@@ -84,7 +84,7 @@ export const Input: Component<Props> = (props) => {
               outline
               classList={{
                 "w-5": true,
-                "text-teal-600": state.valid,
+                "text-green-600": state.valid,
                 "text-red-600": !state.valid,
               }}
             />

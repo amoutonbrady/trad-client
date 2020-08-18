@@ -1,28 +1,28 @@
-import { Component, Switch, Match, Show, lazy, Suspense } from 'solid-js'
-import { MatchRoute, NavLink, Redirect } from '@rturnq/solid-router'
+import { Component, Switch, Match, Show, lazy, Suspense } from "solid-js";
+import { MatchRoute, NavLink, Redirect } from "@rturnq/solid-router";
 
-import { Button } from './components'
-import { useAuth } from './services/auth'
+import { Button } from "./components";
+import { useAuth } from "./services/auth";
 
-import Login from './views/login'
+import Login from "./views/login";
 
-const Home = lazy(() => import('./views/home'))
+const Home = lazy(() => import("./views/home"));
 
-const LanguageIndex = lazy(() => import('./views/languages'))
-const LanguageDetails = lazy(() => import('./views/languages/details'))
-const LanguageNew = lazy(() => import('./views/languages/new'))
+const LanguageIndex = lazy(() => import("./views/languages"));
+const LanguageDetails = lazy(() => import("./views/languages/details"));
+const LanguageNew = lazy(() => import("./views/languages/new"));
 
-const UsersIndex = lazy(() => import('./views/users'))
-const UserDetails = lazy(() => import('./views/users/details'))
-const UserNew = lazy(() => import('./views/users/new'))
+const UsersIndex = lazy(() => import("./views/users"));
+const UserDetails = lazy(() => import("./views/users/details"));
+const UserNew = lazy(() => import("./views/users/new"));
 
 const App: Component = () => {
-  const [auth, { isLoggedIn, logout }] = useAuth()
+  const [auth, { isLoggedIn, logout }] = useAuth();
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Show when={isLoggedIn()}>
-        <aside class="h-full w-64 bg-gray-800 text-gray-050 flex flex-col">
+        <aside class="h-full w-64 bg-gray-800 text-gray-100 flex flex-col">
           <p class="text-lg font-semibold text-center py-3 bg-gray-900">
             The Translator
           </p>
@@ -78,7 +78,7 @@ const App: Component = () => {
           <Button
             onClick={logout}
             status="danger"
-            classList={{ 'mt-auto': auth.user }}
+            classList={{ "mt-auto": auth.user }}
           >
             Logout
           </Button>
@@ -128,7 +128,7 @@ const App: Component = () => {
         </Switch>
       </main>
     </Suspense>
-  )
-}
+  );
+};
 
-export default App
+export default App;
