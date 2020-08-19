@@ -5,12 +5,12 @@
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
 
-console.log("hi: ", process.env.PARCEL_BUILD_ENV);
+console.log("hi: ", process.env.RANDOM_ENV);
 
 module.exports = {
   // purge: false,
   purge: {
-    enabled: process.env.NODE_ENV === "production",
+    enabled: process.env.RANDOM_ENV === "production",
     content: ["./src/**/*.tsx", "./src/**/*.ts", "./src/**/*.html", "./*.html"],
   },
   theme: {
