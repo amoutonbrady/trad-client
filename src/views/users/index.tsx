@@ -1,16 +1,16 @@
-import { Component, createResource, For, Show, Suspense } from 'solid-js'
-import { Link } from '@rturnq/solid-router'
-import { Button, Page } from '../../components'
-import { useSDK } from '../../services/sdk'
-import { Icon } from '@amoutonbrady/solid-heroicons'
-import { arrowRight } from '@amoutonbrady/solid-heroicons/outline'
-import { useAuth } from '../../services/auth'
+import { Component, createResource, For, Show, Suspense } from "solid-js";
+import { Link } from "@rturnq/solid-router";
+import { Button, Page } from "../../components";
+import { useSDK } from "../../services/sdk";
+import { Icon } from "@amoutonbrady/solid-heroicons";
+import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
+import { useAuth } from "../../services/auth";
 
 const UsersIndex: Component = () => {
-  const sdk = useSDK()
-  const [auth] = useAuth()
-  const [users, loadUsers] = createResource([])
-  loadUsers(sdk.users.getAll())
+  const sdk = useSDK();
+  const [auth] = useAuth();
+  const [users, loadUsers] = createResource([]);
+  loadUsers(() => sdk.users.getAll());
 
   return (
     <Page name="List of users">
@@ -25,7 +25,7 @@ const UsersIndex: Component = () => {
               {(user, i) => (
                 <li
                   class="border-dashed border-gray-200 py-1"
-                  classList={{ 'border-t-2': i() > 0 }}
+                  classList={{ "border-t-2": i() > 0 }}
                 >
                   <Link
                     href={`/users/${user.id}`}
@@ -46,11 +46,7 @@ const UsersIndex: Component = () => {
                       type="button"
                       class="transform transition-transform duration-300 group-hover:translate-x-2"
                     >
-                      <Icon
-                        path={arrowRight}
-                        outline
-                        classList={{ 'w-6': true }}
-                      />
+                      <Icon path={arrowRight} class="w-6" />
                     </button>
                   </Link>
                 </li>
@@ -60,7 +56,7 @@ const UsersIndex: Component = () => {
         </Suspense>
       </section>
     </Page>
-  )
-}
+  );
+};
 
-export default UsersIndex
+export default UsersIndex;

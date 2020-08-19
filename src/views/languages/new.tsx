@@ -13,7 +13,7 @@ const LanguageNew: Component = () => {
     setFeedback({ success: false, message: "" });
 
     sdk.languages
-      .createLanguage(form)
+      .create(form)
       .then(() => {
         setForm({ name: "", code: "" });
         setFeedback({

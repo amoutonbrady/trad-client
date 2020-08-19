@@ -72,8 +72,7 @@ export const Input: Component<Props> = (props) => {
               <span class="sr-only">View password</span>
               <Icon
                 path={state.innerType === "password" ? eye : eyeOff}
-                outline
-                classList={{ "w-5": true }}
+                class="w-5"
               />
             </button>
           </Show>
@@ -81,9 +80,8 @@ export const Input: Component<Props> = (props) => {
           <Show when={internal.withValidation && state.changed}>
             <Icon
               path={state.valid ? check : x}
-              outline
+              class="w-5"
               classList={{
-                "w-5": true,
                 "text-green-600": state.valid,
                 "text-red-600": !state.valid,
               }}

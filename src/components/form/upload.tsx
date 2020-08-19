@@ -33,7 +33,7 @@ export const Upload: Component<Props> = (props) => {
   const Empty = () => (
     <>
       <input type="file" id={id} class="sr-only" onChange={handleUpload} />
-      <Icon path={photograph} outline classList={{ "h-20": true }} />
+      <Icon path={photograph} class="h-20" />
     </>
   );
 
@@ -54,7 +54,7 @@ export const Upload: Component<Props> = (props) => {
             class="h-6 w-6 rounded-full bg-red-300 border-2 border-red-500 text-red-900 flex items-center justify-center absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 z-20"
             onClick={() => setUrl("")}
           >
-            <Icon path={x} outline classList={{ "h-4": true }} />
+            <Icon path={x} class="h-4" />
           </button>
         </div>
       </Show>

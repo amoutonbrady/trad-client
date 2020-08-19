@@ -12,7 +12,7 @@ const LanguageDetails: Component = () => {
 
   const [language, loadLanguage] = createResource({ name: "", code: "" });
   const [form, setForm] = createState(language());
-  loadLanguage(sdk.languages.getOne(code));
+  loadLanguage(() => sdk.languages.getOne(code));
   createEffect(() => setForm(language()));
 
   const [feedback, setFeedback] = createState({ success: false, message: "" });
@@ -21,14 +21,14 @@ const LanguageDetails: Component = () => {
     setFeedback({ success: false, message: "" });
 
     sdk.languages
-      .updateLanguage(form, code)
+      .update(form, code)
       .then(() => {
         if (form.code !== code) {
           router.push(`/languages/${form.code}`);
           return;
         }
 
-        loadLanguage(sdk.languages.getOne(code));
+        loadLanguage(() => sdk.languages.getOne(code));
 
         setFeedback({
           success: true,

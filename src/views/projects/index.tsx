@@ -1,14 +1,14 @@
-import { Component, createResource, For, Suspense } from 'solid-js'
-import { Link } from '@rturnq/solid-router'
-import { Button, Page } from '../../components'
-import { useSDK } from '../../services/sdk'
-import { Icon } from '@amoutonbrady/solid-heroicons'
-import { arrowRight } from '@amoutonbrady/solid-heroicons/outline'
+import { Component, createResource, For, Suspense } from "solid-js";
+import { Link } from "@rturnq/solid-router";
+import { Button, Page } from "../../components";
+import { useSDK } from "../../services/sdk";
+import { Icon } from "@amoutonbrady/solid-heroicons";
+import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
 
 const ProjectsIndex: Component = () => {
-  const sdk = useSDK()
-  const [projects, loadProjects] = createResource([])
-  loadProjects(sdk.projects.getAll())
+  const sdk = useSDK();
+  const [projects, loadProjects] = createResource([]);
+  loadProjects(() => sdk.projects.getAll());
 
   return (
     <Page name="List of projects available">
@@ -23,7 +23,7 @@ const ProjectsIndex: Component = () => {
               {(project, i) => (
                 <li
                   class="border-dashed border-gray-200 py-1"
-                  classList={{ 'border-t-2': i() > 0 }}
+                  classList={{ "border-t-2": i() > 0 }}
                 >
                   <Link
                     href={`/projects/${project.slug}`}
@@ -36,11 +36,7 @@ const ProjectsIndex: Component = () => {
                       type="button"
                       class="transform transition-transform duration-300 group-hover:translate-x-2"
                     >
-                      <Icon
-                        path={arrowRight}
-                        outline
-                        classList={{ 'w-6': true }}
-                      />
+                      <Icon path={arrowRight} class="w-6" />
                     </button>
                   </Link>
                 </li>
@@ -50,7 +46,7 @@ const ProjectsIndex: Component = () => {
         </Suspense>
       </section>
     </Page>
-  )
-}
+  );
+};
 
-export default ProjectsIndex
+export default ProjectsIndex;

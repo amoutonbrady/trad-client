@@ -8,7 +8,7 @@ import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
 const LanguageIndex: Component = () => {
   const sdk = useSDK();
   const [languages, loadLanguages] = createResource([]);
-  loadLanguages(sdk.languages.getAll());
+  loadLanguages(() => sdk.languages.getAll());
 
   return (
     <Page name="List of languages available">
@@ -40,11 +40,7 @@ const LanguageIndex: Component = () => {
                       type="button"
                       class="transform transition-transform duration-300 group-hover:translate-x-2"
                     >
-                      <Icon
-                        path={arrowRight}
-                        outline
-                        classList={{ "w-6": true }}
-                      />
+                      <Icon path={arrowRight} class="w-6" />
                     </button>
                   </Link>
                 </li>
