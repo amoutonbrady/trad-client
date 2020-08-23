@@ -1,10 +1,5 @@
-import { GraphQLClient } from "graphql-request";
-import {
-  getProject,
-  getProjects,
-  createProject,
-  updateProject,
-} from "../../graphql";
+import { GraphQLClient } from 'graphql-request';
+import { getProject, getProjects, createProject, updateProject } from '../../graphql';
 
 export const createProjectsEndpoint = (client: GraphQLClient) => ({
   async getAll() {
@@ -51,4 +46,5 @@ interface ProjectData {
   languages: { code: string }[];
   name: string;
   screenshot?: string;
+  userId: number;
 }

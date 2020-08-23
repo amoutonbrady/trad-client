@@ -1,38 +1,34 @@
-import { Component, createState } from 'solid-js'
-import { Alert, Button, Input, Page } from '../../components'
-import { useSDK } from '../../services/sdk'
-import { prevent } from '../../utils'
+import { Component, createState } from 'solid-js';
+import { Alert, Button, Input, Page } from '../../components';
+import { useSDK } from '../../services/sdk';
+import { prevent } from '../../utils';
 
 const UserNew: Component = () => {
-  const sdk = useSDK()
+  const sdk = useSDK();
 
-  const [form, setForm] = createState({ name: '', email: '', password: '' })
-  const [feedback, setFeedback] = createState({ success: false, message: '' })
+  const [form, setForm] = createState({ name: '', email: '', password: '' });
+  const [feedback, setFeedback] = createState({ success: false, message: '' });
 
   const createUser = () => {
-    setFeedback({ success: false, message: '' })
+    setFeedback({ success: false, message: '' });
 
     sdk.users
       .create(form)
       .then(() => {
-        setForm({ name: '', email: '', password: '' })
+        setForm({ name: '', email: '', password: '' });
         setFeedback({
           success: true,
           message: 'User created with success!',
-        })
+        });
       })
       .catch(({ message }) => {
-        setFeedback({ success: false, message })
-      })
-  }
+        setFeedback({ success: false, message });
+      });
+  };
 
   return (
     <Page name="Add a new user">
-      <Alert
-        show={!!feedback.message}
-        status={feedback.success ? 'success' : 'danger'}
-        withIcon
-      >
+      <Alert show={!!feedback.message} status={feedback.success ? 'success' : 'danger'} withIcon>
         {feedback.message}
       </Alert>
 
@@ -78,7 +74,7 @@ const UserNew: Component = () => {
         </Button>
       </form>
     </Page>
-  )
-}
+  );
+};
 
-export default UserNew
+export default UserNew;

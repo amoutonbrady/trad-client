@@ -1,14 +1,14 @@
-import { Component, createResource, For, Suspense } from "solid-js";
-import { Link } from "@rturnq/solid-router";
-import { Button, Page } from "../../components";
-import { useSDK } from "../../services/sdk";
-import { Icon } from "@amoutonbrady/solid-heroicons";
-import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
+import { Component, createResource, For, Suspense } from 'solid-js';
+import { Link } from '@rturnq/solid-router';
+import { Button, Page } from '../../components';
+import { useSDK } from '../../services/sdk';
+import { Icon } from '@amoutonbrady/solid-heroicons';
+import { arrowRight } from '@amoutonbrady/solid-heroicons/outline';
 
 const ProjectsIndex: Component = () => {
   const sdk = useSDK();
   const [projects, loadProjects] = createResource([]);
-  loadProjects(() => sdk.projects.getAll());
+  loadProjects(sdk.projects.getAll());
 
   return (
     <Page name="List of projects available">
@@ -23,7 +23,7 @@ const ProjectsIndex: Component = () => {
               {(project, i) => (
                 <li
                   class="border-dashed border-gray-200 py-1"
-                  classList={{ "border-t-2": i() > 0 }}
+                  classList={{ 'border-t-2': i() > 0 }}
                 >
                   <Link
                     href={`/projects/${project.slug}`}

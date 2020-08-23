@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal } from 'solid-js';
 
 export function useLocalStorage<T>(key: string, initialValue?: T) {
   let init: T;

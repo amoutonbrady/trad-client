@@ -1,20 +1,27 @@
-import { Component, Switch, Match, Show, lazy, Suspense } from "solid-js";
-import { MatchRoute, NavLink, Redirect } from "@rturnq/solid-router";
+import { Component, Switch, Match, Show, lazy, Suspense } from 'solid-js';
+import { MatchRoute, NavLink, Redirect } from '@rturnq/solid-router';
 
-import { Button } from "./components";
-import { useAuth } from "./services/auth";
+import { Button } from './components';
+import { useAuth } from './services/auth';
 
-import Login from "./views/login";
+import Login from './views/login';
 
-const Home = lazy(() => import("./views/home"));
+const Home = lazy(() => import('./views/home'));
 
-const LanguageIndex = lazy(() => import("./views/languages"));
-const LanguageDetails = lazy(() => import("./views/languages/details"));
-const LanguageNew = lazy(() => import("./views/languages/new"));
+const LanguageIndex = lazy(() => import('./views/languages'));
+const LanguageDetails = lazy(() => import('./views/languages/details'));
+const LanguageNew = lazy(() => import('./views/languages/new'));
 
-const UsersIndex = lazy(() => import("./views/users"));
-const UserDetails = lazy(() => import("./views/users/details"));
-const UserNew = lazy(() => import("./views/users/new"));
+const UsersIndex = lazy(() => import('./views/users'));
+const UserDetails = lazy(() => import('./views/users/details'));
+const UserNew = lazy(() => import('./views/users/new'));
+
+const ProjectsIndex = lazy(() => import('./views/projects'));
+const ProjectId = lazy(() => import('./views/projects/_id'));
+const ProjectNew = lazy(() => import('./views/projects/new'));
+
+const ViewNew = lazy(() => import('./views/views/new'));
+const ViewDetails = lazy(() => import('./views/views/details'));
 
 const App: Component = () => {
   const [auth, { isLoggedIn, logout }] = useAuth();
@@ -23,9 +30,7 @@ const App: Component = () => {
     <Suspense fallback={<p>Loading...</p>}>
       <Show when={isLoggedIn()}>
         <aside class="h-full w-64 bg-gray-800 text-gray-100 flex flex-col">
-          <p class="text-lg font-semibold text-center py-3 bg-gray-900">
-            The Translator
-          </p>
+          <p class="text-lg font-semibold text-center py-3 bg-gray-900">The Translator</p>
 
           <nav class="mt-6">
             <ul class="flex flex-col">
@@ -75,11 +80,7 @@ const App: Component = () => {
               <span>{auth.user.name || auth.user.email}</span>
             </p>
           </Show>
-          <Button
-            onClick={logout}
-            status="danger"
-            classList={{ "mt-auto": auth.user }}
-          >
+          <Button onClick={logout} status="danger" classList={{ 'mt-auto': auth.user }}>
             Logout
           </Button>
         </aside>
@@ -110,6 +111,21 @@ const App: Component = () => {
               </MatchRoute>
               <MatchRoute path="/users" end>
                 <UsersIndex />
+              </MatchRoute>
+              <MatchRoute path="/projects/new">
+                <ProjectNew />
+              </MatchRoute>
+              <MatchRoute path="/projects/:project">
+                <ProjectId />
+              </MatchRoute>
+              <MatchRoute path="/projects" end>
+                <ProjectsIndex />
+              </MatchRoute>
+              <MatchRoute path="/views/new">
+                <ViewNew />
+              </MatchRoute>
+              <MatchRoute path="/views/:id">
+                <ViewDetails />
               </MatchRoute>
               <MatchRoute path="/login">
                 <Redirect to="/" />

@@ -1,10 +1,10 @@
-import { Component, Show } from 'solid-js'
-import { Title } from './title'
+import { Component, Show } from 'solid-js';
+import { Title } from './title';
 
 type Props = JSX.HTMLAttributes<HTMLDivElement> & {
-  name?: string
-  center?: boolean
-}
+  name?: string;
+  center?: boolean;
+};
 
 export const Page: Component<Props> = (props) => {
   return (
@@ -14,5 +14,5 @@ export const Page: Component<Props> = (props) => {
       </Show>
       {props.children}
     </div>
-  )
-}
+  );
+};

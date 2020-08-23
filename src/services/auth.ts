@@ -1,13 +1,13 @@
-import { GraphQLClient } from "graphql-request";
-import { createEffect, createState, useContext } from "solid-js";
-import { ServiceContext } from "./index";
-import { loginMutation } from "../graphql";
-import { useLocalStorage } from "../utils/useLocalStorage";
+import { GraphQLClient } from 'graphql-request';
+import { createEffect, createState, useContext } from 'solid-js';
+import { ServiceContext } from './index';
+import { loginMutation } from '../graphql';
+import { useLocalStorage } from '../utils/useLocalStorage';
 
 export const createAuthService = (client: GraphQLClient) => {
-  const [get, set] = useLocalStorage("auth", {
-    token: "",
-    error: "",
+  const [get, set] = useLocalStorage('auth', {
+    token: '',
+    error: '',
     user: null,
   });
   const [state, setState] = createState(get());
@@ -15,7 +15,7 @@ export const createAuthService = (client: GraphQLClient) => {
     set(state);
 
     if (state.token) {
-      client.setHeader("Authorization", `Bearer ${state.token}`);
+      client.setHeader('Authorization', `Bearer ${state.token}`);
     }
   });
 
@@ -25,17 +25,17 @@ export const createAuthService = (client: GraphQLClient) => {
       async login(data: { email: string; password: string }) {
         try {
           const { login } = await client.request(loginMutation, data);
-          setState({ token: login.token, error: "", user: login.user });
+          setState({ token: login.token, error: '', user: login.user });
         } catch ({ response }) {
           setState({
-            token: "",
+            token: '',
             error: response.errors[0].message,
             user: null,
           });
         }
       },
       logout() {
-        setState("token", "");
+        setState('token', '');
       },
       isLoggedIn() {
         return Boolean(state.token);

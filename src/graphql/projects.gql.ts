@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const getProjects = gql`
   query getProjects {
@@ -22,11 +22,11 @@ export const getProject = gql`
     project(where: { slug: $slug }) {
       name
       slug
+      screenshot
       languages {
         code
         name
       }
-      screenshot
     }
   }
 `;
@@ -34,12 +34,14 @@ export const getProject = gql`
 export const createProject = gql`
   mutation createProject(
     $name: String!
+    $screenshot: String!
     $userId: Int!
     $languages: [LanguageWhereUniqueInput!]
   ) {
     createOneProject(
       data: {
         name: $name
+        screenshot: $screenshot
         users: { connect: { id: $userId } }
         languages: { connect: $languages }
       }
@@ -50,11 +52,7 @@ export const createProject = gql`
 `;
 
 export const updateProject = gql`
-  mutation updateProject(
-    $slug: String!
-    $name: String!
-    $languages: [LanguageWhereUniqueInput!]
-  ) {
+  mutation updateProject($slug: String!, $name: String!, $languages: [LanguageWhereUniqueInput!]) {
     updateOneProject(
       data: { name: $name, languages: { connect: $languages } }
       where: { slug: $slug }

@@ -1,52 +1,56 @@
 import { Icon } from '@amoutonbrady/solid-heroicons';
 import { eye, eyeOff, check, x } from '@amoutonbrady/solid-heroicons/outline';
-import { Component, createState, Show, splitProps } from 'solid-js';
+import { Component, createEffect, createState, Show, splitProps } from 'solid-js';
 
-type Props = JSX.InputHTMLAttributes<HTMLInputElement> & {
+type Props = JSX.SelectHTMLAttributes<HTMLSelectElement> & {
   label?: string;
   hint?: string;
   withValidation?: boolean;
   loading?: boolean;
-  onInput?: (e: Event & { target: HTMLInputElement }) => unknown;
-  onChange?: (e: Event & { target: HTMLInputElement }) => unknown;
-  onBlur?: (e: Event & { target: HTMLInputElement }) => unknown;
+  onChange?: (e: Event & { target?: HTMLSelectElement; value?: string }) => unknown;
+  placeholder?: string;
 };
 
-export const Input: Component<Props> = (props) => {
+export const Select: Component<Props> = (props) => {
   const [internal, external] = splitProps(props, [
     'label',
     'hint',
     'withValidation',
     'loading',
-    'onBlur',
+    'onChange',
+    'placeholder',
   ]);
 
   const defaultProps: Props = {
     id: '_' + Math.random().toString(36).substr(2, 9),
-    type: 'text',
   };
 
   const [state, setState] = createState({
-    innerType: props.type || defaultProps.type,
     changed: false,
     valid: true,
     message: '',
   });
 
-  const finalProps = () => ({ ...defaultProps, ...external });
+  createEffect(() => console.log(external.value));
 
-  const togglePasswordType = () => {
-    setState('innerType', (type) => (type === 'text' ? 'password' : 'text'));
-  };
+  const finalProps = () => ({ ...defaultProps, ...external });
   const formatValue = (value: any): string => (value ? String(value) : '');
 
-  const handleBlur = (e: Event & { target: HTMLInputElement }) => {
+  const handleChange = (e: Event & { target: HTMLSelectElement }) => {
     setState({
       changed: true,
       message: e.target.validationMessage,
       valid: e.target.checkValidity(),
     });
-    if (internal.onBlur) internal.onBlur(e);
+
+    if (internal.onChange) {
+      const value = Array.from(e.target.options)
+        .filter((o) => o.selected)
+        .map((o) => o.value || o.textContent)
+        .join(',');
+
+      internal.onChange({ ...e, value });
+    }
   };
 
   return (
@@ -59,19 +63,6 @@ export const Input: Component<Props> = (props) => {
         </Show>
 
         <div class="flex items-center">
-          <Show when={finalProps().type === 'password' && !finalProps().disabled}>
-            <button
-              type="button"
-              aria-roledescription="Change type"
-              tabindex="-1"
-              classList={{ 'mr-4': state.changed }}
-              onClick={togglePasswordType}
-            >
-              <span class="sr-only">View password</span>
-              <Icon path={state.innerType === 'password' ? eye : eyeOff} class="w-5" />
-            </button>
-          </Show>
-
           <Show when={internal.withValidation && state.changed}>
             <Icon
               path={state.valid ? check : x}
@@ -93,13 +84,10 @@ export const Input: Component<Props> = (props) => {
         <Show when={internal.loading}>
           <div class="absolute top-0 left-0 z-20 w-full h-full bg-gray-300 rounded-md animate-pulse"></div>
         </Show>
-        <input
+        <select
           id={finalProps().id}
           value={formatValue(finalProps().value)}
           name={finalProps().name || finalProps().id}
-          type={state.innerType}
-          min={finalProps().min}
-          max={finalProps().max}
           disabled={finalProps().disabled || internal.loading}
           classList={{
             invalid: state.changed && !state.valid,
@@ -107,8 +95,13 @@ export const Input: Component<Props> = (props) => {
           }}
           class="relative border-gray-400 w-full z-10 px-4 py-2 border rounded-md focus:outline-none focus:shadow-outline disabled:text-gray-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:border-gray-500"
           {...finalProps()}
-          onBlur={handleBlur}
-        />
+          onChange={handleChange}
+        >
+          <Show when={internal.placeholder}>
+            <option disabled>{internal.placeholder}</option>
+          </Show>
+          {props.children}
+        </select>
       </div>
       <Show when={internal.withValidation && !state.valid && state.message}>
         <p class="flex items-center mt-1 text-sm text-red-700">{state.message}</p>

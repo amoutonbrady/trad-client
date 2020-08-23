@@ -1,5 +1,5 @@
-import { GraphQLClient } from "graphql-request";
-import { getUser, getUsers, createUser, updateUser } from "../../graphql";
+import { GraphQLClient } from 'graphql-request';
+import { getUser, getUsers, createUser, updateUser } from '../../graphql';
 
 export const createUsersEndpoint = (client: GraphQLClient) => ({
   async getAll() {

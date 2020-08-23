@@ -1,24 +1,27 @@
+import { useRouter } from '@rturnq/solid-router';
 import { Component, createState } from 'solid-js';
 import { Alert, Button, Input, Page } from '../../components';
+import { Upload } from '../../components/form/upload';
 import { useSDK } from '../../services/sdk';
 import { prevent } from '../../utils';
 
-const LanguageNew: Component = () => {
+const ViewNew: Component = () => {
   const sdk = useSDK();
-
-  const [form, setForm] = createState({ name: '', code: '' });
+  const router = useRouter();
+  const project = router.query().project || router.query()['?project'];
+  const [form, setForm] = createState({ name: '', screenshot: '', project });
   const [feedback, setFeedback] = createState({ success: false, message: '' });
 
-  const createLanguage = () => {
+  const createView = () => {
     setFeedback({ success: false, message: '' });
 
-    sdk.languages
+    sdk.views
       .create(form)
       .then(() => {
-        setForm({ name: '', code: '' });
+        setForm({ name: '', screenshot: '', project });
         setFeedback({
           success: true,
-          message: 'Language created with success!',
+          message: 'View added with success!',
         });
       })
       .catch(({ message }) => {
@@ -27,39 +30,29 @@ const LanguageNew: Component = () => {
   };
 
   return (
-    <Page name="Add a new language">
+    <Page name={`New page for ${project}`}>
       <Alert show={!!feedback.message} status={feedback.success ? 'success' : 'danger'} withIcon>
         {feedback.message}
       </Alert>
 
       <form
-        onSubmit={prevent(createLanguage)}
+        onSubmit={prevent(createView)}
         class="flex flex-col space-y-6"
         classList={{ 'mt-6': !!feedback.message }}
       >
+        <Upload
+          label="Screenshot of the page"
+          value={form.screenshot}
+          onUpload={(screen) => setForm('screenshot', screen)}
+        />
         <Input
+          label="Name of the page"
           name="name"
-          label="Name of the language"
-          placeholder="French"
           value={form.name}
           onInput={(e) => setForm('name', e.target.value)}
-          required
           withValidation
-        />
-        <Input
-          name="code"
-          label="Code of the language"
-          hint="The format expected is 2-digit lowercase country code followed by and underscore followed by 2-digit uppercase region code"
-          placeholder="fr_FR"
-          minLength={5}
-          maxLength={5}
-          pattern="[a-z]{2}_[A-Z]{2}"
-          value={form.code}
-          onInput={(e) => setForm('code', e.target.value)}
           required
-          withValidation
         />
-
         <Button type="submit" class="ml-auto">
           Create now!
         </Button>
@@ -68,4 +61,4 @@ const LanguageNew: Component = () => {
   );
 };
 
-export default LanguageNew;
+export default ViewNew;

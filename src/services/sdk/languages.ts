@@ -1,10 +1,5 @@
-import { GraphQLClient } from "graphql-request";
-import {
-  getLanguages,
-  createLanguage,
-  getLanguage,
-  updateLanguage,
-} from "../../graphql";
+import { GraphQLClient } from 'graphql-request';
+import { getLanguages, createLanguage, getLanguage, updateLanguage } from '../../graphql';
 
 export const createLanguagesEndpoint = (client: GraphQLClient) => ({
   async getAll() {

@@ -1,14 +1,14 @@
-import { Component, createResource, For, Suspense } from "solid-js";
-import { Link } from "@rturnq/solid-router";
-import { Button, Page } from "../../components";
-import { useSDK } from "../../services/sdk";
-import { Icon } from "@amoutonbrady/solid-heroicons";
-import { arrowRight } from "@amoutonbrady/solid-heroicons/outline";
+import { Component, createResource, For, Suspense } from 'solid-js';
+import { Link } from '@rturnq/solid-router';
+import { Button, Page } from '../../components';
+import { useSDK } from '../../services/sdk';
+import { Icon } from '@amoutonbrady/solid-heroicons';
+import { arrowRight } from '@amoutonbrady/solid-heroicons/outline';
 
 const LanguageIndex: Component = () => {
   const sdk = useSDK();
   const [languages, loadLanguages] = createResource([]);
-  loadLanguages(() => sdk.languages.getAll());
+  loadLanguages(sdk.languages.getAll());
 
   return (
     <Page name="List of languages available">
@@ -19,14 +19,11 @@ const LanguageIndex: Component = () => {
       <section class="mt-6">
         <Suspense fallback={<span>Loading...</span>}>
           <ul class="flex flex-col">
-            <For
-              each={languages()}
-              fallback={<p>No languages for the moment</p>}
-            >
+            <For each={languages()} fallback={<p>No languages for the moment</p>}>
               {(language, i) => (
                 <li
                   class="border-dashed border-gray-200 py-1"
-                  classList={{ "border-t-2": i() > 0 }}
+                  classList={{ 'border-t-2': i() > 0 }}
                 >
                   <Link
                     href={`/languages/${language.code}`}
