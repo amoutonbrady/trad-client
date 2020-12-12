@@ -1,35 +1,36 @@
-import { GraphQLClient } from 'graphql-request';
+import http from 'redaxios';
 import { createEffect, createState, useContext } from 'solid-js';
 import { ServiceContext } from './index';
-import { loginMutation } from '../graphql';
 import { useLocalStorage } from '../utils/useLocalStorage';
 
-export const createAuthService = (client: GraphQLClient) => {
+export const createAuthService = (client: typeof http) => {
   const [get, set] = useLocalStorage('auth', {
     token: '',
     error: '',
     user: null,
   });
+
   const [state, setState] = createState(get());
+
   createEffect(() => {
     set(state);
 
     if (state.token) {
-      client.setHeader('Authorization', `Bearer ${state.token}`);
+      client.defaults.headers = { Authorization: `Bearer ${state.token}` };
     }
   });
 
   return [
     state,
     {
-      async login(data: { email: string; password: string }) {
+      async login(form: { email: string; password: string }) {
         try {
-          const { login } = await client.request(loginMutation, data);
-          setState({ token: login.token, error: '', user: login.user });
-        } catch ({ response }) {
+          const { data } = await client.post('auth/login', form);
+          setState({ token: data.token, error: '', user: data.user });
+        } catch (e) {
           setState({
             token: '',
-            error: response.errors[0].message,
+            error: 'An error occured',
             user: null,
           });
         }

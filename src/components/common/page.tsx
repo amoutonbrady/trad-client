@@ -1,4 +1,4 @@
-import { Component, Show } from 'solid-js';
+import { Component, Show, JSX } from 'solid-js';
 import { Title } from './title';
 
 type Props = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -12,6 +12,7 @@ export const Page: Component<Props> = (props) => {
       <Show when={props.name}>
         <Title center={props.center}>{props.name}</Title>
       </Show>
+
       {props.children}
     </div>
   );

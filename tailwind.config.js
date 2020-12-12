@@ -1,36 +1,34 @@
-/*
- ** TailwindCSS Configuration File
- **
- ** Docs: https://tailwindcss.com/docs/configuration
- ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
- */
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   // purge: false,
   purge: {
-    enabled: process.env.RANDOM_ENV === "production",
-    content: ["./src/**/*.tsx", "./src/**/*.ts", "./src/**/*.html", "./*.html"],
+    enabled: process.env['npm_lifecycle_event'] === 'build',
+    mode: 'layers',
+    layers: ['base', 'components', 'utilities'],
+    content: ['./src/**/*.tsx', './src/**/*.ts', './src/**/*.html', './*.html'],
   },
   theme: {
+    colors,
     container: {
       center: true,
     },
     extend: {
       inset: (theme) => ({
-        ...theme("spacing"),
-        "1/2": "50%",
+        ...theme('spacing'),
+        '1/2': '50%',
       }),
       fontFamily: {
         sans: [
           '"Inter var"',
-          "-apple-system",
-          "BlinkMacSystemFont",
+          '-apple-system',
+          'BlinkMacSystemFont',
           '"Segoe UI"',
-          "Roboto",
+          'Roboto',
           '"Helvetica Neue"',
-          "Arial",
+          'Arial',
           '"Noto Sans"',
-          "sans-serif",
+          'sans-serif',
           '"Apple Color Emoji"',
           '"Segoe UI Emoji"',
           '"Segoe UI Symbol"',
@@ -39,23 +37,18 @@ module.exports = {
     },
   },
   variants: [
-    "responsive",
-    "group-hover",
-    "focus-within",
-    "first",
-    "last",
-    "odd",
-    "even",
-    "hover",
-    "focus",
-    "active",
-    "visited",
-    "disabled",
+    'responsive',
+    'group-hover',
+    'focus-within',
+    'first',
+    'last',
+    'odd',
+    'even',
+    'hover',
+    'focus',
+    'active',
+    'visited',
+    'disabled',
   ],
-  experimental: {
-    experimental: "all",
-  },
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
+  plugins: [require('@tailwindcss/forms')],
 };

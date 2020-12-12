@@ -1,6 +1,6 @@
 import { Icon } from '@amoutonbrady/solid-heroicons';
 import { photograph, x } from '@amoutonbrady/solid-heroicons/outline';
-import { Component, createEffect, createSignal, Show } from 'solid-js';
+import { Component, createEffect, createSignal, Show, JSX } from 'solid-js';
 
 interface Props extends JSX.LabelHTMLAttributes<HTMLLabelElement> {
   label?: string;

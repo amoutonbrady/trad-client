@@ -1,31 +1,30 @@
-import { GraphQLClient } from 'graphql-request';
-import { createView, getView, getViews } from '../../graphql/views.gql';
+import http from 'redaxios';
 
-export const createViewsEndpoint = (client: GraphQLClient) => ({
+export const createViewsEndpoint = (client: typeof http) => ({
   async getAll(projectSlug: string) {
     try {
-      const { views, project } = await client.request(getViews, { project: projectSlug });
-      return { views, project };
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+      const { data: views } = await client.get('views', { params: { project: projectSlug } });
+      return views;
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async getOne(id: number) {
     try {
-      const { view, languages } = await client.request(getView, { id });
-      return { view, languages };
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+      const { data: view } = await client.get(`views/${id}`);
+      return { view };
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async create(data: ViewData) {
     try {
-      const { createOneView } = await client.request(createView, data);
+      const { data: createOneView } = await client.post('views', data);
       return createOneView;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
@@ -36,8 +35,8 @@ export const createViewsEndpoint = (client: GraphQLClient) => ({
   //         id,
   //       });
   //       return updateOneUser;
-  //     } catch ({ response }) {
-  //       throw new Error(response.errors[0].message);
+  //     } catch (e) {
+  //       throw new Error('An error happened');
   //     }
   //   },
 });

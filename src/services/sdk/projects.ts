@@ -1,43 +1,39 @@
-import { GraphQLClient } from 'graphql-request';
-import { getProject, getProjects, createProject, updateProject } from '../../graphql';
+import http from 'redaxios';
 
-export const createProjectsEndpoint = (client: GraphQLClient) => ({
+export const createProjectsEndpoint = (client: typeof http) => ({
   async getAll() {
     try {
-      const { projects } = await client.request(getProjects);
+      const { data: projects } = await client.get('projects');
       return projects;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
-  async getOne(slug: string) {
+  async getOne(id: string) {
     try {
-      const { project } = await client.request(getProject, { slug });
+      const { data: project } = await client.get(`projects/${id}`);
       return project;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async create(data: ProjectData) {
     try {
-      const { createOneProject } = await client.request(createProject, data);
+      const { data: createOneProject } = await client.post('projects', data);
       return createOneProject;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
-  async update(data: ProjectData, slug: string) {
+  async update(data: ProjectData, id: string) {
     try {
-      const { updateOneProject } = await client.request(updateProject, {
-        ...data,
-        slug,
-      });
+      const { data: updateOneProject } = await client.patch(`projects/${id}`, data);
       return updateOneProject;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 });

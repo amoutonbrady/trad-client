@@ -1,6 +1,6 @@
 import { Icon } from '@amoutonbrady/solid-heroicons';
 import { eye, eyeOff, check, x } from '@amoutonbrady/solid-heroicons/outline';
-import { Component, createState, Show, splitProps } from 'solid-js';
+import { Component, createState, Show, splitProps, JSX } from 'solid-js';
 
 type Props = JSX.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;

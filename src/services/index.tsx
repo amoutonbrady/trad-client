@@ -1,5 +1,5 @@
 import { Component, createContext } from 'solid-js';
-import { GraphQLClient } from 'graphql-request';
+import http from 'redaxios';
 import { createAuthService } from './auth';
 import { createSDK } from './sdk';
 
@@ -9,7 +9,9 @@ export const ServiceContext = createContext<{
 }>();
 
 export const ServiceProvider: Component = (props) => {
-  const client = new GraphQLClient('http://localhost:4000/graphql');
+  const client = http.create({
+    baseURL: 'http://localhost:3000',
+  });
 
   const authService = createAuthService(client);
 

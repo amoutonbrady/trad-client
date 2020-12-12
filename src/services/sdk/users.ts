@@ -1,45 +1,40 @@
-import { GraphQLClient } from 'graphql-request';
-import { getUser, getUsers, createUser, updateUser } from '../../graphql';
+import http from 'redaxios';
 
-export const createUsersEndpoint = (client: GraphQLClient) => ({
+export const createUsersEndpoint = (client: typeof http) => ({
   async getAll() {
     try {
-      const { users } = await client.request(getUsers);
+      const { data: users } = await client.get('users');
       return users;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async getOne(id: number) {
     try {
-      const { user } = await client.request(getUser, { id });
+      const { data: user } = await client.get(`users/${id}`);
       return user;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async create(data: UserData) {
     try {
-      const { createOneUser } = await client.request(createUser, {
-        data,
-      });
+      const { data: createOneUser } = await client.post('users', { ...data, role: 'ADMIN' });
       return createOneUser;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
-  async update(data: UserData, id: number) {
+  async update(id: number, data: UserData) {
     try {
-      const { updateOneUser } = await client.request(updateUser, {
-        data,
-        id,
-      });
+      // @ts-ignore
+      const { data: updateOneUser } = await client.request(`users/${id}`, undefined, 'PATCH', data);
       return updateOneUser;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 });

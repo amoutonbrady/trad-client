@@ -8,7 +8,7 @@ import { arrowRight } from '@amoutonbrady/solid-heroicons/outline';
 const LanguageIndex: Component = () => {
   const sdk = useSDK();
   const [languages, loadLanguages] = createResource([]);
-  loadLanguages(sdk.languages.getAll());
+  loadLanguages(sdk.languages.getAll);
 
   return (
     <Page name="List of languages available">

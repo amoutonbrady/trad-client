@@ -1,9 +1,10 @@
-import { Component, Dynamic, Show, splitProps } from 'solid-js';
+import { Component, Show, splitProps, JSX } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import { LinkProps } from '@rturnq/solid-router';
 import { Icon } from '@amoutonbrady/solid-heroicons';
 import { dotsHorizontal } from '@amoutonbrady/solid-heroicons/outline';
 
-type Props = LinkProps &
+type Props = Partial<LinkProps> &
   JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
     loading?: boolean;
     component?: string | Component;

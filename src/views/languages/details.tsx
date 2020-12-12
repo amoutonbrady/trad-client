@@ -8,11 +8,11 @@ const LanguageDetails: Component = () => {
   const sdk = useSDK();
   const route = useRoute();
   const router = useRouter();
-  const code = route.getParams().code;
+  const code = route.params.code;
 
   const [language, loadLanguage] = createResource({ name: '', code: '' });
   const [form, setForm] = createState(language());
-  loadLanguage(sdk.languages.getOne(code));
+  loadLanguage(() => sdk.languages.getOne(code));
   createEffect(() => setForm(language()));
 
   const [feedback, setFeedback] = createState({ success: false, message: '' });
@@ -28,7 +28,7 @@ const LanguageDetails: Component = () => {
           return;
         }
 
-        loadLanguage(sdk.languages.getOne(code));
+        loadLanguage(() => sdk.languages.getOne(code));
 
         setFeedback({
           success: true,

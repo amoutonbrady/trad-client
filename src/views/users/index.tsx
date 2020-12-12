@@ -10,7 +10,7 @@ const UsersIndex: Component = () => {
   const sdk = useSDK();
   const [auth] = useAuth();
   const [users, loadUsers] = createResource([]);
-  loadUsers(sdk.users.getAll());
+  loadUsers(sdk.users.getAll);
 
   return (
     <Page name="List of users">

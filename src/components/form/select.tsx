@@ -1,6 +1,6 @@
 import { Icon } from '@amoutonbrady/solid-heroicons';
-import { eye, eyeOff, check, x } from '@amoutonbrady/solid-heroicons/outline';
-import { Component, createEffect, createState, Show, splitProps } from 'solid-js';
+import { check, x } from '@amoutonbrady/solid-heroicons/outline';
+import { Component, createEffect, createState, Show, splitProps, JSX } from 'solid-js';
 
 type Props = JSX.SelectHTMLAttributes<HTMLSelectElement> & {
   label?: string;

@@ -1,4 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
+import http from 'redaxios';
 import { useContext } from 'solid-js';
 import { ServiceContext } from '..';
 import { createLanguagesEndpoint } from './languages';
@@ -7,7 +7,7 @@ import { createTranslationsEndpoint } from './translations';
 import { createUsersEndpoint } from './users';
 import { createViewsEndpoint } from './views';
 
-export function createSDK(client: GraphQLClient) {
+export function createSDK(client: typeof http) {
   // TODO: Make those lazy loaded
   const entities = {
     languages: createLanguagesEndpoint(client),

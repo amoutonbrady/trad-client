@@ -1,29 +1,28 @@
-import { render } from 'solid-js/dom';
-import { requestCallback } from 'solid-js';
-import { RouterProvider, browserPathRouting } from '@rturnq/solid-router';
-requestCallback(() => {});
+import { render } from 'solid-js/web';
+import { Router, pathIntegration } from '@rturnq/solid-router';
 
 import App from './app';
 import { ServiceProvider } from './services';
 
 export const rootEl = document.getElementById('root');
+
 export const dispose = render(
   () => (
-    <RouterProvider handler={browserPathRouting()}>
+    <Router integration={pathIntegration()}>
       <ServiceProvider>
         <App />
       </ServiceProvider>
-    </RouterProvider>
+    </Router>
   ),
   rootEl,
 );
 
 // HMR
-if (module.hot) {
-  module.hot.dispose(() => {
-    dispose();
-    rootEl.textContent = '';
-  });
+// if (module.hot) {
+//   module.hot.dispose(() => {
+//     dispose();
+//     rootEl.textContent = '';
+//   });
 
-  module.hot.accept();
-}
+//   module.hot.accept();
+// }

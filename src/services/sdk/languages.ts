@@ -1,47 +1,45 @@
-import { GraphQLClient } from 'graphql-request';
-import { getLanguages, createLanguage, getLanguage, updateLanguage } from '../../graphql';
+import http from 'redaxios';
 
-export const createLanguagesEndpoint = (client: GraphQLClient) => ({
+export const createLanguagesEndpoint = (client: typeof http) => ({
   async getAll() {
     try {
-      const { languages } = await client.request(getLanguages);
+      const { data: languages } = await client.get('languages');
       return languages;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async getOne(code: string) {
     try {
-      const { language } = await client.request<{
+      const { data: language } = await client.get<{
         language: { code: string; name: string };
-      }>(getLanguage, { code });
+      }>(`languages/${code}`);
       return language;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async create(data: LanguageData) {
     try {
-      const { createOneLanguage } = await client.request(createLanguage, {
+      const { data: createOneLanguage } = await client.post('languages', {
         data,
       });
       return createOneLanguage;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async update(data: LanguageData, code: string) {
     try {
-      const { updateOneLanguage } = await client.request(updateLanguage, {
+      const { data: updateOneLanguage } = await client.patch(`languages/${code}`, {
         data,
-        code,
       });
       return updateOneLanguage;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 });

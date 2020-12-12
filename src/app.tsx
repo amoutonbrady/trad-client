@@ -36,7 +36,7 @@ const App: Component = () => {
             <ul class="flex flex-col">
               <li>
                 <NavLink
-                  href="/"
+                  href=""
                   class="p-2 rounded-r-full hover:bg-blue-700 block"
                   activeClass="bg-blue-700"
                   end
@@ -46,7 +46,7 @@ const App: Component = () => {
               </li>
               <li>
                 <NavLink
-                  href="/projects"
+                  href="projects"
                   class="p-2 rounded-r-full hover:bg-blue-700 block"
                   activeClass="bg-blue-700"
                 >
@@ -55,7 +55,7 @@ const App: Component = () => {
               </li>
               <li>
                 <NavLink
-                  href="/languages"
+                  href="languages"
                   class="p-2 rounded-r-full hover:bg-blue-700 block"
                   activeClass="bg-blue-700"
                 >
@@ -64,7 +64,7 @@ const App: Component = () => {
               </li>
               <li>
                 <NavLink
-                  href="/users"
+                  href="users"
                   class="p-2 rounded-r-full hover:bg-blue-700 block"
                   activeClass="bg-blue-700"
                 >
@@ -91,52 +91,52 @@ const App: Component = () => {
           {/* Stuff to show when logged in */}
           <Match when={isLoggedIn()}>
             <Switch>
-              <MatchRoute path="/" end>
+              <MatchRoute end>
                 <Home />
               </MatchRoute>
-              <MatchRoute path="/languages/new">
+              <MatchRoute path="languages/new">
                 <LanguageNew />
               </MatchRoute>
-              <MatchRoute path="/languages/:code">
+              <MatchRoute path="languages/:code">
                 <LanguageDetails />
               </MatchRoute>
-              <MatchRoute path="/languages" end>
+              <MatchRoute path="languages" end>
                 <LanguageIndex />
               </MatchRoute>
-              <MatchRoute path="/users/new">
+              <MatchRoute path="users/new">
                 <UserNew />
               </MatchRoute>
-              <MatchRoute path="/users/:id">
+              <MatchRoute path="users/:id">
                 <UserDetails />
               </MatchRoute>
-              <MatchRoute path="/users" end>
+              <MatchRoute path="users" end>
                 <UsersIndex />
               </MatchRoute>
-              <MatchRoute path="/projects/new">
+              <MatchRoute path="projects/new">
                 <ProjectNew />
               </MatchRoute>
-              <MatchRoute path="/projects/:project">
+              <MatchRoute path="projects/:project">
                 <ProjectId />
               </MatchRoute>
-              <MatchRoute path="/projects" end>
+              <MatchRoute path="projects" end>
                 <ProjectsIndex />
               </MatchRoute>
-              <MatchRoute path="/views/new">
+              <MatchRoute path="views/new">
                 <ViewNew />
               </MatchRoute>
-              <MatchRoute path="/views/:id">
+              <MatchRoute path="views/:id">
                 <ViewDetails />
               </MatchRoute>
-              <MatchRoute path="/login">
-                <Redirect to="/" />
+              <MatchRoute path="login">
+                <Redirect href="" />
               </MatchRoute>
             </Switch>
           </Match>
 
           {/* Stuff to show when logged out */}
           <Match when={!isLoggedIn()}>
-            <Switch fallback={<Redirect to="/login" />}>
-              <MatchRoute path="/login">
+            <Switch fallback={<Redirect href="login" />}>
+              <MatchRoute path="login">
                 <Login />
               </MatchRoute>
             </Switch>

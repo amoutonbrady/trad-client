@@ -1,4 +1,4 @@
-import { Component } from 'solid-js';
+import { Component, JSX } from 'solid-js';
 
 type Props = JSX.HTMLAttributes<HTMLHeadingElement> & { center?: boolean };
 

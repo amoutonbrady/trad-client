@@ -7,11 +7,11 @@ import { prevent } from '../../utils';
 const UserDetails: Component = () => {
   const sdk = useSDK();
   const route = useRoute();
-  const id = Number.parseInt(route.getParams().id, 10);
+  const id = Number.parseInt(route.params.id, 10);
 
   const [user, loadUser] = createResource({ name: '', email: '' });
   const [form, setForm] = createState(user());
-  loadUser(sdk.users.getOne(id));
+  loadUser(() => sdk.users.getOne(id));
   createEffect(() => setForm(user()));
 
   const [feedback, setFeedback] = createState({ success: false, message: '' });
@@ -20,9 +20,9 @@ const UserDetails: Component = () => {
     setFeedback({ success: false, message: '' });
 
     sdk.users
-      .update(form, id)
+      .update(id, form)
       .then(() => {
-        loadUser(sdk.users.getOne(id));
+        loadUser(() => sdk.users.getOne(id));
 
         setFeedback({
           success: true,

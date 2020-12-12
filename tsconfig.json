@@ -6,6 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "types": ["solid-js", "solid-js/dom", "node", "webpack-env"]
+    "jsxImportSource": "solid-js",
+    "types": ["solid-js", "solid-js/web", "node", "webpack-env"]
   }
 }

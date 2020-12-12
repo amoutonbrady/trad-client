@@ -1,22 +1,21 @@
-import { GraphQLClient } from 'graphql-request';
-import { createTranslation, deleteTranslation } from '../../graphql';
+import http from 'redaxios';
 
-export const createTranslationsEndpoint = (client: GraphQLClient) => ({
+export const createTranslationsEndpoint = (client: typeof http) => ({
   async create(data: TranslationData) {
     try {
-      const { createOneTranslation } = await client.request(createTranslation, data);
+      const { data: createOneTranslation } = await client.post('translations', data);
       return createOneTranslation;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 
   async remove(id: number) {
     try {
-      const { deleteOneTranslation } = await client.request(deleteTranslation, { id });
+      const { data: deleteOneTranslation } = await client.delete(`translations/${id}`);
       return deleteOneTranslation;
-    } catch ({ response }) {
-      throw new Error(response.errors[0].message);
+    } catch (e) {
+      throw new Error('An error happened');
     }
   },
 });
